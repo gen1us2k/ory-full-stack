@@ -12,7 +12,9 @@ class PkModel(Model):
     """Base model class that includes CRUD convenience methods, plus adds a 'primary key' column named ``id``."""
 
     __abstract__ = True
-    id = Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    created_on = db.Column(db.DateTime, default=db.func.now())
+    updated_on = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
     deleted = db.Column(db.DateTime, nullable=True)
 
     @classmethod
