@@ -1,5 +1,5 @@
 from flask import Flask
-from app.extensions import db
+from app.extensions import db, migrate
 
 def create_app(testing=False):
     """Application factory, used to create application."""
@@ -16,3 +16,5 @@ def configure_extensions(app):
     """Configure flask extensions."""
 
     db.init_app(app)
+    migrate.init_app(app, db)
+
