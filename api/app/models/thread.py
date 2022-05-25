@@ -3,6 +3,17 @@ from app.models import constants
 from app.extensions import db
 
 
+thread_upvotes = db.Table('thread_upvotes',
+    db.Column('user_id', db.Integer, db.ForeignKey('users_user.id')),
+    db.Column('thread_id', db.Integer, db.ForeignKey('threads_thread.id'))
+)
+
+comment_upvotes = db.Table('comment_upvotes',
+    db.Column('user_id', db.Integer, db.ForeignKey('users_user.id')),
+    db.Column('comment_id', db.Integer, db.ForeignKey('threads_comment.id'))
+)
+
+
 class Thread(PkModel):
     __tablename__ = 'threads'
 
@@ -15,6 +26,8 @@ class Thread(PkModel):
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     status = db.Column(db.SmallInteger, default=constants.ALIVE)
+    subreddit_id = db.Column(db.Integer, db.ForeignKey('subreddits.id'))
+
 
     comments = db.relationship('Comment', backref='thread', lazy='dynamic')
 
