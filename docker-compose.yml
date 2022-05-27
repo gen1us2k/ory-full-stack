@@ -17,5 +17,9 @@ services:
     volumes:
       - ./oathkeeper:/etc/config/oathkeeper
 
+  reddit:
+    build:
+      context: api
+
 networks:
   intranet:
