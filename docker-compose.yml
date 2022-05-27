@@ -20,6 +20,8 @@ services:
   reddit:
     build:
       context: api
+    networks:
+      - intranet
 
 networks:
   intranet:
