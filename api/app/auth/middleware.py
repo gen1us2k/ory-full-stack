@@ -1,4 +1,6 @@
 import requests
+from flask import Request, Response
+from config import settings
 
 
 class AuthenticationMiddleware:

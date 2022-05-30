@@ -1,6 +1,9 @@
 from flask import Flask
 from app.extensions import db, migrate, apispec
+from app.auth.middleware import AuthenticationMiddleware
+from config import settings
 from app import api
+
 
 def create_app(testing=False):
     """Application factory, used to create application."""
@@ -8,6 +11,9 @@ def create_app(testing=False):
     app.config.from_object("config.settings")
     if testing:
         app.config["TESTING"] = True
+
+    if settings.KRATOS_API_URL:
+        app.wsgi_app = AuthenticationMiddleware(app.wsgi_app)
 
     configure_extensions(app)
     configure_apispec(app)
