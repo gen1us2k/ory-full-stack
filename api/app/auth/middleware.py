@@ -16,7 +16,8 @@ class AuthenticationMiddleware:
         )
         if resp.status_code != 200:
             response = Response()
-            response.status_code = 401
+            response.status_code = 302
+            response.headers = [("Location", settings.KRATOS_UI_URL)]
             return response(environ, start_response)
         return self.app(environ, start_response)
 
