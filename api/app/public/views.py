@@ -14,3 +14,11 @@ def index():
 def create_app():
     form = Oauth2CreateForm(request.form)
     return render_template('oauth/create_client.html', form=form)
+
+@bp.route('/app/<id>', methods=['GET'])
+def app_detail():
+    pass
+
+@bp.route('/apps', methods=['GET'])
+def apps_list():
+    pass
