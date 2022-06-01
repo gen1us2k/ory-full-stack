@@ -2,7 +2,7 @@ from flask import Flask
 from app.extensions import db, migrate, apispec
 from app.auth.middleware import AuthenticationMiddleware
 from config import settings
-from app import api
+from app import api, public
 
 
 def create_app(testing=False):
@@ -48,4 +48,5 @@ def configure_apispec(app):
 
 
 def register_blueprints(app):
+    app.register_blueprint(public.views.bp)
     app.register_blueprint(api.views.blueprint)

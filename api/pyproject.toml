@@ -15,6 +15,7 @@ apispec = {extras = ["yaml"], version = "^5.2.2"}
 apispec-webframeworks = "^0.5.2"
 Flask-RESTful = "^0.3.9"
 marshmallow-sqlalchemy = "^0.28.0"
+Flask-WTF = "^1.0.1"
 
 [tool.poetry.dev-dependencies]
 
