@@ -4,8 +4,9 @@ import string
 
 from flask import Blueprint, request, render_template, redirect
 from flask import session
-from app.public.forms import Oauth2CreateForm
+from app.public.forms import Oauth2CreateForm, LoginForm
 from app.models import App
+from app.security import oauth2
 from config import settings
 
 
@@ -61,6 +62,25 @@ def app_detail():
 def apps_list():
     apps = App.query.filter(App.owner_id==session.get('user_id'))
     return render_template('oauth/list_client.html', apps=apps)
+
+
+@bp.route('/login', methods=['GET'])
+def login():
+    form = LoginForm(request.args)
+    if form.validate():
+        data = oauth2.get_login_request(form.login_challenge.data)
+        traits = session.get('traits')
+        if not traits:
+            traits = session.get('email')
+        data = oauth2.accept_login_request(form.login_challenge.data, traits)
+        return redirect(data.get('redirect_to'), code=302)
+
+    return redirect(f"{settings.KRATOS_UI_URL/login", code=302)
+
+
+@bp.route('/consent', methods=['GET', 'POST'])
+def consent():
+    pass
 
 
 def generate_client_id():

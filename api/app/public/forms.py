@@ -18,3 +18,7 @@ class Oauth2CreateForm(Form):
         'Callback URL', [validators.URL()],
         render_kw={"placeholder": "Callback URL"}
     )
+
+
+class LoginForm(Form):
+    login_challenge = StringField('Login Challenge', [validators.DataRequired()])

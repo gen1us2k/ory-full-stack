@@ -1,4 +1,5 @@
 import requests
+import json
 
 from flask import request, abort, session
 
@@ -23,6 +24,7 @@ class Authentication:
             traits = data.get("identity", {}).get("traits", {})
             session["email"] = traits.get("email")
             session["kratos_id"] = traits.get("id")
+            session["traits"] = json.dumps(traits)
 
     def set_user_to_session(self, session) -> None:
         self.set_email_to_session(session)
@@ -31,14 +33,11 @@ class Authentication:
             abort(403)
 
         user = User.query.filter(User.email==email).first()
-        print("USER", flush=True)
-        print(user, flush=True)
         if not user:
             user = User(
                 email=session.get('email'),
                 kratos_id=session.get('kratos_id'),
             )
-            print(user, flush=True)
             user.save()
 
         session["user_id"] = user.id
