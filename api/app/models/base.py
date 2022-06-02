@@ -1,5 +1,36 @@
+from datetime import datetime
 from app.models.helpers import CRUDMixin
 from app.extensions import db
+
+
+class CRUDMixin:
+    """Mixin that adds convenience methods for CRUD (create, read, update, delete) operations."""
+
+    @classmethod
+    def create(cls, **kwargs):
+        """Create a new record and save it the database."""
+        instance = cls(**kwargs)
+        return instance.save()
+
+    def update(self, commit=True, **kwargs):
+        """Update specific fields of a record."""
+        for attr, value in kwargs.items():
+            setattr(self, attr, value)
+        return commit and self.save() or self
+
+    def save(self):
+        """Save the record."""
+        db.session.add(self)
+        db.session.commit()
+        print("COMMIT", flush=True)
+        db.session.flush()
+        return self
+
+    def delete(self, commit=True):
+        """Soft delete the record in the database."""
+        self.deleted = datetime.utcnow()
+        db.session.add(self)
+        return commit and db.session.flush()
 
 
 class Model(CRUDMixin, db.Model):
@@ -8,7 +39,7 @@ class Model(CRUDMixin, db.Model):
     __abstract__ = True
 
 
-class PkModel(Model):
+class PkModel(Model, CRUDMixin):
     """Base model class that includes CRUD convenience methods, plus adds a 'primary key' column named ``id``."""
 
     __abstract__ = True
@@ -33,3 +64,5 @@ class PkModel(Model):
     def default_query(cls):
         """Return not deleted models."""
         return cls.query.filter(cls.deleted.is_(None))
+
+

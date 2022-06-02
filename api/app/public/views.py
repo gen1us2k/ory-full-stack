@@ -3,6 +3,7 @@ import requests
 import string
 
 from flask import Blueprint, request, render_template, redirect
+from flask import session
 from app.public.forms import Oauth2CreateForm
 from app.models import App
 from config import settings
@@ -44,6 +45,7 @@ def create_app():
             client_id=client_id,
             client_secret=data.get('client_secret'),
             callback_url=form.callback_url.data,
+            owner_id=session.get('user_id'),
         )
         app.save()
         return redirect('/apps', code=302)
@@ -52,11 +54,13 @@ def create_app():
 
 @bp.route('/app/<id>', methods=['GET'])
 def app_detail():
-    pass
+    return render_template('oauth/list_client.html')
+
 
 @bp.route('/apps', methods=['GET'])
 def apps_list():
-    pass
+    apps = App.query.filter(App.owner_id==session.get('user_id'))
+    return render_template('oauth/list_client.html', apps=apps)
 
 
 def generate_client_id():

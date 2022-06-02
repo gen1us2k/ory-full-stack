@@ -1,5 +1,5 @@
 from app.extensions import db
-from app.models.base import PkModel
+from app.models.base import PkModel, CRUDMixin
 import enum
 
 

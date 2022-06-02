@@ -1,8 +1,8 @@
 """app
 
-Revision ID: aa781f5b126f
+Revision ID: 0ac3af36c394
 Revises: 9c87d87ff3c1
-Create Date: 2022-06-02 16:16:00.684206
+Create Date: 2022-06-02 17:27:52.734035
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'aa781f5b126f'
+revision = '0ac3af36c394'
 down_revision = '9c87d87ff3c1'
 branch_labels = None
 depends_on = None
@@ -29,6 +29,8 @@ def upgrade():
     sa.Column('client_id', sa.String(), nullable=True),
     sa.Column('client_secret', sa.String(), nullable=True),
     sa.Column('callback_url', sa.String(), nullable=True),
+    sa.Column('owner_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['owner_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###

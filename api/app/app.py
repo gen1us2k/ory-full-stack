@@ -1,6 +1,7 @@
-from flask import Flask
+from flask import Flask, session
 from app.extensions import db, migrate, apispec
 from app.auth.middleware import AuthenticationMiddleware
+from app.security import authentication
 from config import settings
 from app import api, public
 
@@ -18,6 +19,7 @@ def create_app(testing=False):
     configure_extensions(app)
     configure_apispec(app)
     register_blueprints(app)
+    set_context_processor(app)
 
     return app
 
@@ -50,3 +52,18 @@ def configure_apispec(app):
 def register_blueprints(app):
     app.register_blueprint(public.views.bp)
     app.register_blueprint(api.views.blueprint)
+
+
+def set_context_processor(app):
+    """Set context processor for app."""
+
+    @app.context_processor
+    def set_email_session():
+        """Set kratos email session."""
+        authentication.set_user_to_session(session)
+
+        return {
+            "user": session.get("email"),
+        }
+
+

@@ -19,6 +19,7 @@ class AuthenticationMiddleware:
             response.status_code = 302
             response.headers = [("Location", settings.KRATOS_UI_URL)]
             return response(environ, start_response)
+
         return self.app(environ, start_response)
 
 

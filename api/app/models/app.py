@@ -11,4 +11,4 @@ class App(PkModel):
     client_id = db.Column(db.String())
     client_secret = db.Column(db.String())
     callback_url = db.Column(db.String())
-
+    owner_id = db.Column(db.Integer, db.ForeignKey('users.id'))

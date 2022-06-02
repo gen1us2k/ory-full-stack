@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %} List Oauth2 clients {% endblock %}
+
+{% block content %}
+<h2> List clients </h2>
+{% for app in apps %}
+ {{ app.name }}
+ {{ app.client_id }}
+{% endfor %}
+{% endblock %}

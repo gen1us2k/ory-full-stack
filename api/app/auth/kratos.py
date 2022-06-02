@@ -1,6 +1,6 @@
 import requests
 
-from flask import request, abort
+from flask import request, abort, session
 
 from app.models import User
 
@@ -30,9 +30,16 @@ class Authentication:
         if not email:
             abort(403)
 
-        user = User.default_query().filter(email=email).first()
+        user = User.query.filter(User.email==email).first()
+        print("USER", flush=True)
+        print(user, flush=True)
         if not user:
-            abort(403)
+            user = User(
+                email=session.get('email'),
+                kratos_id=session.get('kratos_id'),
+            )
+            print(user, flush=True)
+            user.save()
 
         session["user_id"] = user.id
 
