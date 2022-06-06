@@ -1,9 +1,13 @@
+import string
+import random
+
 from flask import Flask, session
+from flask_oauthlib.client import OAuth
+
 from app.extensions import db, migrate, apispec
-from app.auth.middleware import AuthenticationMiddleware
-from app.security import authentication
+from app.auth.middleware import IntrospectionMiddleware
 from config import settings
-from app import api, public
+from app import api
 
 
 def create_app(testing=False):
@@ -13,13 +17,14 @@ def create_app(testing=False):
     if testing:
         app.config["TESTING"] = True
 
-    if settings.KRATOS_API_URL:
-        app.wsgi_app = AuthenticationMiddleware(app.wsgi_app)
+    if settings.HYDRA_ADMIN_URL:
+        app.wsgi_app = IntrospectionMiddleware(app.wsgi_app)
 
     configure_extensions(app)
     configure_apispec(app)
     register_blueprints(app)
     set_context_processor(app)
+    configure_oauth2(app)
 
     return app
 
@@ -50,20 +55,33 @@ def configure_apispec(app):
 
 
 def register_blueprints(app):
-    app.register_blueprint(public.views.bp)
     app.register_blueprint(api.views.blueprint)
 
 
 def set_context_processor(app):
     """Set context processor for app."""
 
+    def generate_state(self):
+        alphabet = string.ascii_lowercase + string.digits + string.ascii_uppercase
+        return ''.join(random.choice(alphabet) for i in range(32))
+
     @app.context_processor
     def set_email_session():
-        """Set kratos email session."""
-        authentication.set_user_to_session(session)
+        state = self.generate_state()
+        session['oauth2_state'] = state
 
         return {
-            "user": session.get("email"),
+            "oauth2_state": session.get("oauth2_state"),
         }
 
 
+def configure_oauth2(app):
+    oauth = OAuth()
+    twitter = oauth.remote_app(
+        'hydra',
+        request_token_url='https://api.twitter.com/oauth/request_token',
+        access_token_url='https://api.twitter.com/oauth/access_token',
+        authorize_url='https://api.twitter.com/oauth/authenticate',
+        app_key='HYDRA'
+    )
+    oauth.init_app(app)
