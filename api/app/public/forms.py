@@ -22,3 +22,8 @@ class Oauth2CreateForm(Form):
 
 class LoginForm(Form):
     login_challenge = StringField('Login Challenge', [validators.DataRequired()])
+
+
+class ConsentForm(Form):
+    consent_challenge = StringField('Login challenge', [validators.DataRequired()])
+    submit = StringField('Submit', [validators.DataRequired()])

@@ -3,8 +3,8 @@ import requests
 import string
 
 from flask import Blueprint, request, render_template, redirect
-from flask import session
-from app.public.forms import Oauth2CreateForm, LoginForm
+from flask import session, abort
+from app.public.forms import Oauth2CreateForm, LoginForm, ConsentForm
 from app.models import App
 from app.security import oauth2
 from config import settings
@@ -75,12 +75,42 @@ def login():
         data = oauth2.accept_login_request(form.login_challenge.data, traits)
         return redirect(data.get('redirect_to'), code=302)
 
-    return redirect(f"{settings.KRATOS_UI_URL/login", code=302)
+    return redirect(f"{settings.KRATOS_UI_URL}/login", code=302)
 
 
 @bp.route('/consent', methods=['GET', 'POST'])
 def consent():
-    pass
+    form = ConsentForm(request.form)
+    if request.method == 'POST' and form.validate():
+        data = oauth2.get_consent_request(form.consent_challenge.data)
+
+        if form.submit.data == 'accept':
+            accept = oauth2.accept_consent_request(
+                form.consent_challenge.data,
+                data.get('requested_scopes'),
+                session.get('email'),
+            )
+            return redirect(accept.get('redirect_to'), code=302)
+
+        if form.submit.data == 'reject':
+            reject = oauth2.reject_consent_request(
+                form.consent_challenge.data,
+            )
+            return redirect(reject.get('redirect_to'), code=302)
+
+    challenge = request.args.get('consent_challenge')
+    if not challenge:
+        abort(403)
+
+    data = oauth2.get_consent_request(challenge)
+    app = App.query.filter(App.client_id==data.get('client').get('client_id')).first()
+
+    return render_template(
+        'oauth/consent.html', app=app,
+        scopes=data.get('requested_scopes', []),
+        challenge=challenge
+    )
+
 
 
 def generate_client_id():
