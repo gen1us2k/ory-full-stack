@@ -53,7 +53,7 @@ class PkModel(Model, CRUDMixin):
         """Get record by ID."""
         if any(
             (
-                isinstance(record_id, basestring) and record_id.isdigit(),
+                isinstance(record_id, str) and record_id.isdigit(),
                 isinstance(record_id, (int, float)),
             )
         ):

@@ -25,10 +25,6 @@ class AccessControl:
     def add_permissions(self, namespace, obj, relation, subject_id):
         r = requests.put(
             f"{self.keto_write_url}/relation-tuples",
-            data={
-                "object": obj,
-                "relation": relation,
-                "subject_id": subject_id,
-                "namespace": namespace
-            },
+            data={"object": obj, "relation": relation, "subject_id": subject_id, "namespace": namespace},
         )
+        r.json()
