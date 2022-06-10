@@ -18,6 +18,7 @@ marshmallow-sqlalchemy = "^0.28.0"
 Flask-WTF = "^1.0.1"
 ory-hydra-client = "^1.11.8"
 Flask-OAuthlib = "^0.9.6"
+environs = "^9.5.0"
 
 [tool.poetry.dev-dependencies]
 
