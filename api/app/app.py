@@ -9,7 +9,6 @@ from app.extensions import migrate
 from config import settings
 from flask import Flask
 from flask import session
-from flask_oauthlib.client import OAuth
 
 
 def create_app(testing=False):
@@ -26,7 +25,6 @@ def create_app(testing=False):
     configure_apispec(app)
     register_blueprints(app)
     set_context_processor(app)
-    configure_oauth2(app)
 
     return app
 
@@ -68,21 +66,9 @@ def set_context_processor(app):
 
     @app.context_processor
     def set_email_session():
-        state = self.generate_state()
+        state = generate_state()
         session['oauth2_state'] = state
 
         return {
             "oauth2_state": session.get("oauth2_state"),
         }
-
-
-def configure_oauth2(app):
-    oauth = OAuth()
-    twitter = oauth.remote_app(
-        'hydra',
-        request_token_url='https://api.twitter.com/oauth/request_token',
-        access_token_url='https://api.twitter.com/oauth/access_token',
-        authorize_url='https://api.twitter.com/oauth/authenticate',
-        app_key='HYDRA',
-    )
-    oauth.init_app(app)
