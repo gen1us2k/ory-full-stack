@@ -1,9 +1,8 @@
 from datetime import datetime
 
+from app.extensions import db
 from sqlalchemy import inspect
 from sqlalchemy.orm.attributes import get_history
-
-from app.extensions import db
 
 
 class SoftDeleteRecordModel:
@@ -52,4 +51,3 @@ class CRUDMixin(SoftDeleteRecordModel):
             if fields
             else (state.get_history(field.key, True).has_changes() for field in state.attrs)
         )
-

@@ -1,9 +1,9 @@
-import requests
 import json
 
-from flask import request, abort, session
-
+import requests
 from app.models import User
+from flask import abort
+from flask import request
 
 
 class Authentication:
@@ -32,7 +32,7 @@ class Authentication:
         if not email:
             abort(403)
 
-        user = User.query.filter(User.email==email).first()
+        user = User.query.filter(User.email == email).first()
         if not user:
             user = User(
                 email=session.get('email'),

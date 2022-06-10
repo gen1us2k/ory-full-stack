@@ -1,13 +1,15 @@
-import string
 import random
+import string
 
-from flask import Flask, session
-from flask_oauthlib.client import OAuth
-
-from app.extensions import db, migrate, apispec
-from app.auth.middleware import IntrospectionMiddleware
-from config import settings
 from app import api
+from app.auth.middleware import IntrospectionMiddleware
+from app.extensions import apispec
+from app.extensions import db
+from app.extensions import migrate
+from config import settings
+from flask import Flask
+from flask import session
+from flask_oauthlib.client import OAuth
 
 
 def create_app(testing=False):
@@ -28,6 +30,7 @@ def create_app(testing=False):
 
     return app
 
+
 def configure_extensions(app):
     """Configure flask extensions."""
 
@@ -38,9 +41,7 @@ def configure_extensions(app):
 def configure_apispec(app):
     """Configure APISpec for swagger support"""
     apispec.init_app(app, security=[{"jwt": []}])
-    apispec.spec.components.security_scheme(
-        "jwt", {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"}
-    )
+    apispec.spec.components.security_scheme("jwt", {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"})
     apispec.spec.components.schema(
         "PaginatedResult",
         {
@@ -82,6 +83,6 @@ def configure_oauth2(app):
         request_token_url='https://api.twitter.com/oauth/request_token',
         access_token_url='https://api.twitter.com/oauth/access_token',
         authorize_url='https://api.twitter.com/oauth/authenticate',
-        app_key='HYDRA'
+        app_key='HYDRA',
     )
     oauth.init_app(app)

@@ -1,5 +1,6 @@
+from app.extensions import db
+from app.extensions import ma
 from app.models import SubReddit
-from app.extensions import ma, db
 
 
 class SubRedditSchema(ma.SQLAlchemyAutoSchema):

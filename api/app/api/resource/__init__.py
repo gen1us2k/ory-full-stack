@@ -1,9 +1,15 @@
-from app.api.resource.thread import ThreadResource, ThreadList
-from app.api.resource.subreddit import SubRedditResource, SubRedditList
-from app.api.resource.comment import CommentResource, CommentList
+from app.api.resource.comment import CommentList
+from app.api.resource.comment import CommentResource
+from app.api.resource.subreddit import SubRedditList
+from app.api.resource.subreddit import SubRedditResource
+from app.api.resource.thread import ThreadList
+from app.api.resource.thread import ThreadResource
 
 __all__ = [
-    'ThreadResource', 'ThreadList',
-    'SubRedditResource', 'SubRedditList',
-    'CommentResource', 'CommentList',
+    'ThreadResource',
+    'ThreadList',
+    'SubRedditResource',
+    'SubRedditList',
+    'CommentResource',
+    'CommentList',
 ]

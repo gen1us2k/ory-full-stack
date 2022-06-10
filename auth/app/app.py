@@ -1,9 +1,11 @@
-from flask import Flask, session
-from app.extensions import db, migrate
+from app import public
 from app.auth.middleware import AuthenticationMiddleware
+from app.extensions import db
+from app.extensions import migrate
 from app.security import authentication
 from config import settings
-from app import public
+from flask import Flask
+from flask import session
 
 
 def create_app(testing=False):
@@ -21,6 +23,7 @@ def create_app(testing=False):
     set_context_processor(app)
 
     return app
+
 
 def configure_extensions(app):
     """Configure flask extensions."""
@@ -44,5 +47,3 @@ def set_context_processor(app):
         return {
             "user": session.get("email"),
         }
-
-

@@ -1,10 +1,12 @@
-from flask import request, abort, session
-from flask_restful import Resource
-from app.common import paginate
 from app.api.schema import SubRedditSchema
+from app.common import AccessControlMixin
+from app.common import paginate
 from app.extensions import db
 from app.models import SubReddit
-from app.common import AccessControlMixin
+from flask import abort
+from flask import request
+from flask import session
+from flask_restful import Resource
 
 
 class SubRedditResource(Resource, AccessControlMixin):
@@ -49,4 +51,3 @@ class SubRedditList(Resource):
         subreddit = schema.load(request.json)
         subreddit.save()
         return {"subreddit": schema.dump(subreddit)}, 201
-

@@ -1,6 +1,7 @@
-from flask import url_for, request
-from config import settings
 from app.auth.keto import AccessControl
+from config import settings
+from flask import request
+from flask import url_for
 
 
 DEFAULT_PAGE_SIZE = 50
@@ -21,14 +22,14 @@ def paginate(query, schema):
         page=page_obj.next_num if page_obj.has_next else page_obj.page,
         per_page=per_page,
         **other_request_args,
-        **request.view_args
+        **request.view_args,
     )
     prev = url_for(
         request.endpoint,
         page=page_obj.prev_num if page_obj.has_prev else page_obj.page,
         per_page=per_page,
         **other_request_args,
-        **request.view_args
+        **request.view_args,
     )
 
     return {
@@ -46,4 +47,3 @@ class AccessControlMixin:
 
     def is_allowed(self, namespace, obj, relation, subject_id):
         return self.keto_client.is_allowed(namespace, obj, relation, subject_id)
-

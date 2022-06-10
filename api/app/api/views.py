@@ -1,11 +1,17 @@
-from flask import Blueprint, current_app, jsonify
-from flask_restful import Api
-from app.api.resource import ThreadResource, ThreadList
-from app.api.resource import CommentResource, CommentList
-from app.api.resource import SubRedditResource, SubRedditList
+from app.api.resource import CommentList
+from app.api.resource import CommentResource
+from app.api.resource import SubRedditList
+from app.api.resource import SubRedditResource
+from app.api.resource import ThreadList
+from app.api.resource import ThreadResource
+from app.api.schema import CommentSchema
+from app.api.schema import SubRedditSchema
 from app.api.schema import ThreadSchema
-from app.api.schema import CommentSchema, SubRedditSchema
 from app.extensions import apispec
+from flask import Blueprint
+from flask import current_app
+from flask import jsonify
+from flask_restful import Api
 from marshmallow import ValidationError
 
 
@@ -21,6 +27,7 @@ api.add_resource(CommentList, "/comments", endpoint="comments")
 
 api.add_resource(SubRedditResource, "/subreddits/<int:subreddit_id>", endpoint="subreddit_by_id")
 api.add_resource(SubRedditList, "/subreddits", endpoint="subreddits")
+
 
 @blueprint.before_app_first_request
 def register_views():

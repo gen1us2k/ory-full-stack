@@ -1,6 +1,7 @@
 from datetime import datetime
-from app.models.helpers import CRUDMixin
+
 from app.extensions import db
+from app.models.helpers import CRUDMixin
 
 
 class CRUDMixin:
@@ -51,7 +52,12 @@ class PkModel(Model, CRUDMixin):
     @classmethod
     def get_by_id(cls, record_id):
         """Get record by ID."""
-        if any((isinstance(record_id, basestring) and record_id.isdigit(), isinstance(record_id, (int, float)),)):
+        if any(
+            (
+                isinstance(record_id, basestring) and record_id.isdigit(),
+                isinstance(record_id, (int, float)),
+            )
+        ):
             return cls.query.get(int(record_id))
         return None
 
@@ -64,5 +70,3 @@ class PkModel(Model, CRUDMixin):
     def default_query(cls):
         """Return not deleted models."""
         return cls.query.filter(cls.deleted.is_(None))
-
-

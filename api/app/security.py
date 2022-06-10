@@ -1,4 +1,3 @@
-from app.auth.kratos import Authentication
 from app.auth.hydra import HydraClient
 from config import settings
 from oauthlib.oauth2 import WebApplicationClient

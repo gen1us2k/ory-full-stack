@@ -1,17 +1,24 @@
 import random
-import requests
 import string
 
-from flask import Blueprint, request, render_template, redirect
-from flask import session, abort
-from app.public.forms import Oauth2CreateForm, LoginForm, ConsentForm
+import requests
 from app.models import App
+from app.public.forms import ConsentForm
+from app.public.forms import LoginForm
+from app.public.forms import Oauth2CreateForm
 from app.security import oauth2
 from config import settings
+from flask import abort
+from flask import Blueprint
+from flask import redirect
+from flask import render_template
+from flask import request
+from flask import session
 
 
 bp = Blueprint('bp', __name__, url_prefix='/', template_folder='templates')
 CLIENT_LENGTH = 32
+
 
 @bp.route('/', methods=['GET'])
 def index():
@@ -53,6 +60,7 @@ def create_app():
 
     return render_template('oauth/create_client.html', form=form)
 
+
 @bp.route('/app/<id>', methods=['GET'])
 def app_detail():
     return render_template('oauth/list_client.html')
@@ -60,7 +68,7 @@ def app_detail():
 
 @bp.route('/apps', methods=['GET'])
 def apps_list():
-    apps = App.query.filter(App.owner_id==session.get('user_id'))
+    apps = App.query.filter(App.owner_id == session.get('user_id'))
     return render_template('oauth/list_client.html', apps=apps)
 
 
@@ -103,17 +111,11 @@ def consent():
         abort(403)
 
     data = oauth2.get_consent_request(challenge)
-    app = App.query.filter(App.client_id==data.get('client').get('client_id')).first()
+    app = App.query.filter(App.client_id == data.get('client').get('client_id')).first()
 
-    return render_template(
-        'oauth/consent.html', app=app,
-        scopes=data.get('requested_scopes', []),
-        challenge=challenge
-    )
-
+    return render_template('oauth/consent.html', app=app, scopes=data.get('requested_scopes', []), challenge=challenge)
 
 
 def generate_client_id():
     alphabet = string.ascii_lowercase + string.digits + string.ascii_uppercase
     return ''.join(random.choice(alphabet) for i in range(CLIENT_LENGTH))
-

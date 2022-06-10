@@ -1,10 +1,9 @@
-from flask import request
-from flask_restful import Resource
-from app.common import paginate
 from app.api.schema import ThreadSchema
+from app.common import paginate
 from app.extensions import db
 from app.models import Thread
-
+from flask import request
+from flask_restful import Resource
 
 
 class ThreadResource(Resource):

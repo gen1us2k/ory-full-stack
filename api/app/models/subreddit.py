@@ -1,6 +1,6 @@
-from app.models.base import PkModel
-from app.models import constants
 from app.extensions import db
+from app.models import constants
+from app.models.base import PkModel
 
 
 class SubReddit(PkModel):

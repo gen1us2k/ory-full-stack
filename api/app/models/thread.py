@@ -1,16 +1,18 @@
-from app.models.base import PkModel
-from app.models import constants
 from app.extensions import db
+from app.models import constants
+from app.models.base import PkModel
 
 
-thread_upvotes = db.Table('thread_upvotes',
+thread_upvotes = db.Table(
+    'thread_upvotes',
     db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
-    db.Column('thread_id', db.Integer, db.ForeignKey('threads.id'))
+    db.Column('thread_id', db.Integer, db.ForeignKey('threads.id')),
 )
 
-comment_upvotes = db.Table('comment_upvotes',
+comment_upvotes = db.Table(
+    'comment_upvotes',
     db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
-    db.Column('comment_id', db.Integer, db.ForeignKey('threads.id'))
+    db.Column('comment_id', db.Integer, db.ForeignKey('threads.id')),
 )
 
 
@@ -28,7 +30,6 @@ class Thread(PkModel):
     status = db.Column(db.SmallInteger, default=constants.ALIVE)
     subreddit_id = db.Column(db.Integer, db.ForeignKey('subreddits.id'))
 
-
     comments = db.relationship('Comment', backref='thread', lazy='dynamic')
 
     votes = db.Column(db.Integer, default=1)
@@ -43,12 +44,7 @@ class Comment(PkModel):
 
     thread_id = db.Column(db.Integer, db.ForeignKey('threads.id'))
     parent_id = db.Column(db.Integer, db.ForeignKey('comments.id'))
-    children = db.relationship(
-        'Comment',
-        backref=db.backref('parent', remote_side=id),
-        lazy='dynamic'
-    )
+    children = db.relationship('Comment', backref=db.backref('parent', remote_side=id), lazy='dynamic')
     depth = db.Column(db.Integer, default=1)
 
     votes = db.Column(db.Integer, default=1)
-

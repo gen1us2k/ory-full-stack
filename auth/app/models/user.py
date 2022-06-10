@@ -1,6 +1,7 @@
-from app.extensions import db
-from app.models.base import PkModel, CRUDMixin
 import enum
+
+from app.extensions import db
+from app.models.base import PkModel
 
 
 class UserRole(enum.Enum):
@@ -15,4 +16,3 @@ class User(PkModel):
     email = db.Column(db.String())
 
     role = db.Column(db.Enum(UserRole), default=UserRole.USER)
-

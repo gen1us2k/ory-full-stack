@@ -1,6 +1,7 @@
-from app.extensions import db
-from app.models.base import PkModel, CRUDMixin
 import enum
+
+from app.extensions import db
+from app.models.base import PkModel
 
 
 class UserRole(enum.Enum):
@@ -19,4 +20,3 @@ class User(PkModel):
     threads = db.relationship('Thread', backref='user', lazy='dynamic')
     comments = db.relationship('Comment', backref='user', lazy='dynamic')
     subreddits = db.relationship('SubReddit', backref='user', lazy='dynamic')
-

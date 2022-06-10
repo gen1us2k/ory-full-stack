@@ -1,8 +1,10 @@
-from flask import jsonify, render_template, Blueprint
 from apispec import APISpec
 from apispec.exceptions import APISpecError
 from apispec.ext.marshmallow import MarshmallowPlugin
 from apispec_webframeworks.flask import FlaskPlugin
+from flask import Blueprint
+from flask import jsonify
+from flask import render_template
 
 
 class FlaskRestfulPlugin(FlaskPlugin):
@@ -21,7 +23,7 @@ class FlaskRestfulPlugin(FlaskPlugin):
                 endpoint = ept
 
         if not endpoint:
-            raise APISpecError("Could not find endpoint for view {0}".format(view))
+            raise APISpecError(f"Could not find endpoint for view {view}")
 
         # WARNING: Assume 1 rule per view function for now
         rule = app.url_map._rules_by_endpoint[endpoint][0]
@@ -52,7 +54,7 @@ class APISpecExt:
             version=app.config["APISPEC_VERSION"],
             openapi_version=app.config["OPENAPI_VERSION"],
             plugins=[MarshmallowPlugin(), FlaskRestfulPlugin()],
-            **kwargs
+            **kwargs,
         )
 
         blueprint = Blueprint(

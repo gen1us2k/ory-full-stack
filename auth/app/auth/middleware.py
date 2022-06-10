@@ -1,6 +1,7 @@
 import requests
-from flask import Request, Response
 from config import settings
+from flask import Request
+from flask import Response
 
 
 class AuthenticationMiddleware:
@@ -11,8 +12,8 @@ class AuthenticationMiddleware:
         request = Request(environ)
         resp = requests.get(
             f"{settings.KRATOS_API_URL}/sessions/whoami",
-            cookies = request.cookies,
-            headers = {"Authorization": request.headers.get("Authorization", "")},
+            cookies=request.cookies,
+            headers={"Authorization": request.headers.get("Authorization", "")},
         )
         if resp.status_code != 200:
             response = Response()

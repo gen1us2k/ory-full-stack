@@ -1,9 +1,9 @@
-from flask import request
-from flask_restful import Resource
-from app.common import paginate
 from app.api.schema import CommentSchema
+from app.common import paginate
 from app.extensions import db
 from app.models import Comment
+from flask import request
+from flask_restful import Resource
 
 
 class CommentResource(Resource):
@@ -38,4 +38,3 @@ class CommentList(Resource):
         comment = schema.load(request.json)
         comment.save()
         return {"comment": schema.dump(comment)}, 201
-

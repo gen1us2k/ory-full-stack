@@ -1,10 +1,11 @@
-import requests
-import string
 import random
+import string
 
-from flask import Request, Response, session
-from config import settings
+import requests
 from app.security import oauth2client
+from config import settings
+from flask import Request
+from flask import Response
 
 
 class IntrospectionMiddleware:
