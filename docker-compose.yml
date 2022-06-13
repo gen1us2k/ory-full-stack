@@ -7,7 +7,6 @@ services:
       - kratos
     ports:
       - 8080:4455
-      - 4456:4456
     command: serve proxy -c "/etc/config/oathkeeper/oathkeeper.yml"
     environment:
       - LOG_LEVEL=debug
@@ -20,12 +19,20 @@ services:
   api:
     build:
       context: api
+    environment:
+      - FLASK_APP=autoapp
     networks:
       - intranet
 
   auth:
     build:
       context: auth
+    environment:
+      - FLASK_APP=autoapp
+      - KRATOS_API_URL=http://kratos:4433
+      - KRATOS_UI_URL=http://host.docker.internal:4455
+      - HYDRA_ADMIN_URL=http://hydra:4445
+      - HYDRA_PUBLIC_URL=http://hydra:4444
     networks:
       - intranet
 

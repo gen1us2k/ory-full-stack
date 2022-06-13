@@ -1,9 +1,10 @@
-- id: 'api:protected'
+- id: 'auth:protected'
   upstream:
     preserve_host: true
-    url: 'http://hello:8090'
+    url: 'http://auth:5000'
+    strip_path: /auth
   match:
-    url: 'http://127.0.0.1:8080/<**>'
+    url: 'http://127.0.0.1:8080/<(auth|app|apps).*>'
     methods:
       - GET
       - POST
@@ -12,17 +13,26 @@
   mutators:
     - handler: header
   authorizer:
-    handler: remote_json
-    config:
-      remote: http://keto:4466/check
-      payload: |
-        {
-          "subject_id": "{{ print .Subject }}",
-          "relation": "access",
-          "namespace": "services",
-          "object": "hello-world-service"
-        }
-
+    handler: allow
+  errors:
+    - handler: redirect
+      config:
+        to: http://127.0.0.1:4455/login
+- id: 'api:protected'
+  upstream:
+    preserve_host: true
+    url: 'http://api:5000'
+  match:
+    url: 'http://127.0.0.1:8080/api/<.*>'
+    methods:
+      - GET
+      - POST
+  authenticators:
+    - handler: cookie_session
+  mutators:
+    - handler: header
+  authorizer:
+    handler: allow
   errors:
     - handler: redirect
       config:

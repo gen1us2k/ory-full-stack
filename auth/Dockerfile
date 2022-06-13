@@ -7,4 +7,4 @@ COPY . .
 
 RUN poetry install
 
-CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
+CMD [ "/python-docker/entrypoint.sh" ]
