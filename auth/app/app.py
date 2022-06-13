@@ -1,5 +1,5 @@
 from app import public
-from app.auth.middleware import AuthenticationMiddleware
+from flask_ory_auth.kratos.middleware import AuthenticationMiddleware
 from app.extensions import db
 from app.extensions import migrate
 from app.security import authentication
@@ -15,8 +15,8 @@ def create_app(testing=False):
     if testing:
         app.config["TESTING"] = True
 
-    if settings.KRATOS_API_URL:
-        app.wsgi_app = AuthenticationMiddleware(app.wsgi_app)
+    if settings.KRATOS_API_URL and settings.KRATOS_UI_URL:
+        app.wsgi_app = AuthenticationMiddleware(app.wsgi_app, settings.KRATOS_API_URL, settings.KRATOS_UI_URL)
 
     configure_extensions(app)
     register_blueprints(app)

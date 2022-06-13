@@ -1,5 +1,5 @@
-from app.auth.hydra import HydraClient
-from app.auth.kratos import Authentication
+from flask_ory_auth.kratos.client import Authentication
+from flask_ory_auth.hydra.client import HydraClient
 from config import settings
 
 authentication = Authentication(settings.KRATOS_API_URL)
