@@ -2,7 +2,7 @@ import random
 import string
 
 from app import api
-from app.auth.middleware import IntrospectionMiddleware
+from flask_ory_auth.hydra.middleware import IntrospectionMiddleware
 from app.extensions import apispec
 from app.extensions import db
 from app.extensions import migrate
@@ -19,7 +19,14 @@ def create_app(testing=False):
         app.config["TESTING"] = True
 
     if settings.HYDRA_ADMIN_URL:
-        app.wsgi_app = IntrospectionMiddleware(app.wsgi_app)
+        app.wsgi_app = IntrospectionMiddleware(
+            app.wsgi_app,
+            settings.KRATOS_UI_URL,
+            settings.HYDRA_SCOPE,
+            settings.HYDRA_ADMIN_URL,
+            settings.HYDRA_DISCOVERY_URL,
+            settings.HYDRA_CLIENT_ID,
+        )
 
     configure_extensions(app)
     configure_apispec(app)

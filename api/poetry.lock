@@ -83,14 +83,6 @@ tests = ["coverage[toml] (>=5.0.2)", "hypothesis", "pympler", "pytest (>=4.3.0)"
 tests_no_zope = ["coverage[toml] (>=5.0.2)", "hypothesis", "pympler", "pytest (>=4.3.0)", "six", "mypy", "pytest-mypy-plugins", "cloudpickle"]
 
 [[package]]
-name = "cachelib"
-version = "0.7.0"
-description = "A collection of cache libraries in the same API interface."
-category = "main"
-optional = false
-python-versions = ">=3.7"
-
-[[package]]
 name = "certifi"
 version = "2022.5.18"
 description = "Python package for providing Mozilla's CA Bundle."
@@ -135,6 +127,24 @@ description = "Distribution utilities"
 category = "dev"
 optional = false
 python-versions = "*"
+
+[[package]]
+name = "environs"
+version = "9.5.0"
+description = "simplified environment variable parsing"
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+marshmallow = ">=3.0.0"
+python-dotenv = "*"
+
+[package.extras]
+dev = ["pytest", "dj-database-url", "dj-email-url", "django-cache-url", "flake8 (==4.0.1)", "flake8-bugbear (==21.9.2)", "mypy (==0.910)", "pre-commit (>=2.4,<3.0)", "tox"]
+django = ["dj-database-url", "dj-email-url", "django-cache-url"]
+lint = ["flake8 (==4.0.1)", "flake8-bugbear (==21.9.2)", "mypy (==0.910)", "pre-commit (>=2.4,<3.0)"]
+tests = ["pytest", "dj-database-url", "dj-email-url", "django-cache-url"]
 
 [[package]]
 name = "filelock"
@@ -200,18 +210,17 @@ Flask = ">=0.9"
 Flask-SQLAlchemy = ">=1.0"
 
 [[package]]
-name = "flask-oauthlib"
-version = "0.9.6"
-description = "OAuthlib for Flask"
+name = "flask-ory-auth"
+version = "0.1.0"
+description = "Useful middlewares and clients to use Ory products in flask App"
 category = "main"
 optional = false
-python-versions = "*"
+python-versions = ">=3.7"
 
 [package.dependencies]
-cachelib = "*"
-Flask = "*"
-oauthlib = ">=1.1.2,<2.0.3 || >2.0.3,<2.0.4 || >2.0.4,<2.0.5 || >2.0.5,<3.0.0"
-requests-oauthlib = ">=0.6.2,<1.2.0"
+Flask = ">=2.1.2,<3.0.0"
+requests = ">=2.28.0,<3.0.0"
+requests-oauthlib = ">=1.3.1,<2.0.0"
 
 [[package]]
 name = "flask-restful"
@@ -368,17 +377,16 @@ tests = ["pytest", "pytest-lazy-fixture (>=0.6.2)"]
 
 [[package]]
 name = "oauthlib"
-version = "2.1.0"
+version = "3.2.0"
 description = "A generic, spec-compliant, thorough implementation of the OAuth request-signing logic"
 category = "main"
 optional = false
-python-versions = "*"
+python-versions = ">=3.6"
 
 [package.extras]
-rsa = ["cryptography"]
-signals = ["blinker"]
-signedtoken = ["cryptography", "pyjwt (>=1.0.0)"]
-test = ["nose", "unittest2", "cryptography", "mock", "pyjwt (>=1.0.0)", "blinker"]
+rsa = ["cryptography (>=3.0.0)"]
+signals = ["blinker (>=1.4.0)"]
+signedtoken = ["cryptography (>=3.0.0)", "pyjwt (>=2.0.0,<3)"]
 
 [[package]]
 name = "ory-hydra-client"
@@ -495,6 +503,17 @@ python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,>=2.7"
 six = ">=1.5"
 
 [[package]]
+name = "python-dotenv"
+version = "0.20.0"
+description = "Read key-value pairs from a .env file and set them as environment variables"
+category = "main"
+optional = false
+python-versions = ">=3.5"
+
+[package.extras]
+cli = ["click (>=5.0)"]
+
+[[package]]
 name = "pytz"
 version = "2022.1"
 description = "World timezone definitions, modern and historical"
@@ -512,36 +531,36 @@ python-versions = ">=3.6"
 
 [[package]]
 name = "requests"
-version = "2.27.1"
+version = "2.28.0"
 description = "Python HTTP for Humans."
 category = "main"
 optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*"
+python-versions = ">=3.7, <4"
 
 [package.dependencies]
 certifi = ">=2017.4.17"
-charset-normalizer = {version = ">=2.0.0,<2.1.0", markers = "python_version >= \"3\""}
-idna = {version = ">=2.5,<4", markers = "python_version >= \"3\""}
+charset-normalizer = ">=2.0.0,<2.1.0"
+idna = ">=2.5,<4"
 urllib3 = ">=1.21.1,<1.27"
 
 [package.extras]
-socks = ["PySocks (>=1.5.6,!=1.5.7)", "win-inet-pton"]
+socks = ["PySocks (>=1.5.6,!=1.5.7)"]
 use_chardet_on_py3 = ["chardet (>=3.0.2,<5)"]
 
 [[package]]
 name = "requests-oauthlib"
-version = "1.1.0"
+version = "1.3.1"
 description = "OAuthlib authentication support for Requests."
 category = "main"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
 [package.dependencies]
-oauthlib = ">=2.1.0,<3.0.0"
+oauthlib = ">=3.0.0"
 requests = ">=2.0.0"
 
 [package.extras]
-rsa = ["oauthlib[signedtoken] (>=2.1.0,<3.0.0)"]
+rsa = ["oauthlib[signedtoken] (>=3.0.0)"]
 
 [[package]]
 name = "six"
@@ -680,7 +699,7 @@ email = ["email-validator"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "da723221b2ed1c4b925203690cd8d05682bd7bf1d2d4a4b7d210618458ab69c3"
+content-hash = "624801beb1f17a06f0f7f6f3c5a66718844565e2e79c0152ad428e1c2b3f6ea9"
 
 [metadata.files]
 alembic = [
@@ -707,10 +726,6 @@ attrs = [
     {file = "attrs-21.4.0-py2.py3-none-any.whl", hash = "sha256:2d27e3784d7a565d36ab851fe94887c5eccd6a463168875832a1be79c82828b4"},
     {file = "attrs-21.4.0.tar.gz", hash = "sha256:626ba8234211db98e869df76230a137c4c40a12d72445c45d5f5b716f076e2fd"},
 ]
-cachelib = [
-    {file = "cachelib-0.7.0-py3-none-any.whl", hash = "sha256:80fa73dda398672329dab6c8e9e9bad03fd36dc4da40d911d7de308c91e8481e"},
-    {file = "cachelib-0.7.0.tar.gz", hash = "sha256:df254f3b900dc8684d8ebdd146c731ddb45edc6233a6cf7e3e834c949f360726"},
-]
 certifi = [
     {file = "certifi-2022.5.18-py3-none-any.whl", hash = "sha256:8d15a5a7fde18536a249c49e07e8e462b8fc13de21b3c80e8a68315dfa227c99"},
     {file = "certifi-2022.5.18.tar.gz", hash = "sha256:6ae10321df3e464305a46e997da41ea56c1d311fb9ff1dd4e04d6f14653ec63a"},
@@ -731,6 +746,10 @@ distlib = [
     {file = "distlib-0.3.4-py2.py3-none-any.whl", hash = "sha256:6564fe0a8f51e734df6333d08b8b94d4ea8ee6b99b5ed50613f731fd4089f34b"},
     {file = "distlib-0.3.4.zip", hash = "sha256:e4b58818180336dc9c529bfb9a0b58728ffc09ad92027a3f30b7cd91e3458579"},
 ]
+environs = [
+    {file = "environs-9.5.0-py2.py3-none-any.whl", hash = "sha256:1e549569a3de49c05f856f40bce86979e7d5ffbbc4398e7f338574c220189124"},
+    {file = "environs-9.5.0.tar.gz", hash = "sha256:a76307b36fbe856bdca7ee9161e6c466fd7fcffc297109a118c59b54e27e30c9"},
+]
 filelock = [
     {file = "filelock-3.7.1-py3-none-any.whl", hash = "sha256:37def7b658813cda163b56fc564cdc75e86d338246458c4c28ae84cabefa2404"},
     {file = "filelock-3.7.1.tar.gz", hash = "sha256:3a0fd85166ad9dbab54c9aec96737b744106dc5f15c0b09a6744a445299fcf04"},
@@ -747,9 +766,9 @@ flask-migrate = [
     {file = "Flask-Migrate-3.1.0.tar.gz", hash = "sha256:57d6060839e3a7f150eaab6fe4e726d9e3e7cffe2150fb223d73f92421c6d1d9"},
     {file = "Flask_Migrate-3.1.0-py3-none-any.whl", hash = "sha256:a6498706241aba6be7a251078de9cf166d74307bca41a4ca3e403c9d39e2f897"},
 ]
-flask-oauthlib = [
-    {file = "Flask-OAuthlib-0.9.6.tar.gz", hash = "sha256:5bb79c8a8e670c2eb4cb553dfc3283b6c8d1202f674934676dc173cee94fe39c"},
-    {file = "Flask_OAuthlib-0.9.6-py3-none-any.whl", hash = "sha256:a5c3b62959aa1922470a62b6ebf4273b75f1c29561a7eb4a69cde85d45a1d669"},
+flask-ory-auth = [
+    {file = "flask-ory-auth-0.1.0.tar.gz", hash = "sha256:6bbabc94201b68a9704d68a1ecb11cac89578b53debc0c6476b098d3c07f9b86"},
+    {file = "flask_ory_auth-0.1.0-py3-none-any.whl", hash = "sha256:f280ff37a757403041aa856ad2119e4c2811afffad9c9fc275dcc76a3e77321f"},
 ]
 flask-restful = [
     {file = "Flask-RESTful-0.3.9.tar.gz", hash = "sha256:ccec650b835d48192138c85329ae03735e6ced58e9b2d9c2146d6c84c06fa53e"},
@@ -891,8 +910,8 @@ marshmallow-sqlalchemy = [
     {file = "marshmallow_sqlalchemy-0.28.0-py2.py3-none-any.whl", hash = "sha256:f1b977c323ac0ccc0456b15d4eb9bff413b92c72d7a165f263dc276dd3782cf4"},
 ]
 oauthlib = [
-    {file = "oauthlib-2.1.0-py2.py3-none-any.whl", hash = "sha256:d883b36b21a6ad813953803edfa563b1b579d79ca758fe950d1bc9e8b326025b"},
-    {file = "oauthlib-2.1.0.tar.gz", hash = "sha256:ac35665a61c1685c56336bda97d5eefa246f1202618a1d6f34fccb1bdd404162"},
+    {file = "oauthlib-3.2.0-py3-none-any.whl", hash = "sha256:6db33440354787f9b7f3a6dbd4febf5d0f93758354060e802f6c06cb493022fe"},
+    {file = "oauthlib-3.2.0.tar.gz", hash = "sha256:23a8208d75b902797ea29fd31fa80a15ed9dc2c6c16fe73f5d346f83f6fa27a2"},
 ]
 ory-hydra-client = [
     {file = "ory-hydra-client-1.11.8.tar.gz", hash = "sha256:71a3c7d0c69be61b6c2d7215f6fbb9f1ace14944168f042d570724e0c3a0146a"},
@@ -929,6 +948,10 @@ pytest-flask = [
 python-dateutil = [
     {file = "python-dateutil-2.8.2.tar.gz", hash = "sha256:0123cacc1627ae19ddf3c27a5de5bd67ee4586fbdd6440d9748f8abb483d3e86"},
     {file = "python_dateutil-2.8.2-py2.py3-none-any.whl", hash = "sha256:961d03dc3453ebbc59dbdea9e4e11c5651520a876d0f4db161e8674aae935da9"},
+]
+python-dotenv = [
+    {file = "python-dotenv-0.20.0.tar.gz", hash = "sha256:b7e3b04a59693c42c36f9ab1cc2acc46fa5df8c78e178fc33a8d4cd05c8d498f"},
+    {file = "python_dotenv-0.20.0-py3-none-any.whl", hash = "sha256:d92a187be61fe482e4fd675b6d52200e7be63a12b724abbf931a40ce4fa92938"},
 ]
 pytz = [
     {file = "pytz-2022.1-py2.py3-none-any.whl", hash = "sha256:e68985985296d9a66a881eb3193b0906246245294a881e7c8afe623866ac6a5c"},
@@ -970,13 +993,12 @@ pyyaml = [
     {file = "PyYAML-6.0.tar.gz", hash = "sha256:68fb519c14306fec9720a2a5b45bc9f0c8d1b9c72adf45c37baedfcd949c35a2"},
 ]
 requests = [
-    {file = "requests-2.27.1-py2.py3-none-any.whl", hash = "sha256:f22fa1e554c9ddfd16e6e41ac79759e17be9e492b3587efa038054674760e72d"},
-    {file = "requests-2.27.1.tar.gz", hash = "sha256:68d7c56fd5a8999887728ef304a6d12edc7be74f1cfa47714fc8b414525c9a61"},
+    {file = "requests-2.28.0-py3-none-any.whl", hash = "sha256:bc7861137fbce630f17b03d3ad02ad0bf978c844f3536d0edda6499dafce2b6f"},
+    {file = "requests-2.28.0.tar.gz", hash = "sha256:d568723a7ebd25875d8d1eaf5dfa068cd2fc8194b2e483d7b1f7c81918dbec6b"},
 ]
 requests-oauthlib = [
-    {file = "requests-oauthlib-1.1.0.tar.gz", hash = "sha256:eabd8eb700ebed81ba080c6ead96d39d6bdc39996094bd23000204f6965786b0"},
-    {file = "requests_oauthlib-1.1.0-py2.py3-none-any.whl", hash = "sha256:be76f2bb72ca5525998e81d47913e09b1ca8b7957ae89b46f787a79e68ad5e61"},
-    {file = "requests_oauthlib-1.1.0-py3.7.egg", hash = "sha256:490229d14a98e1b69612dcc1a22887ec14f5487dc1b8c6d7ba7f77a42ce7347b"},
+    {file = "requests-oauthlib-1.3.1.tar.gz", hash = "sha256:75beac4a47881eeb94d5ea5d6ad31ef88856affe2332b9aafb52c6452ccf0d7a"},
+    {file = "requests_oauthlib-1.3.1-py2.py3-none-any.whl", hash = "sha256:2577c501a2fb8d05a304c09d090d6e47c306fef15809d102b327cf8364bddab5"},
 ]
 six = [
     {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},
