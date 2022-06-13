@@ -1,7 +1,7 @@
 import random
 import string
 
-from app import api
+from app import api, public
 from flask_ory_auth.hydra.middleware import IntrospectionMiddleware
 from app.extensions import apispec
 from app.extensions import db
@@ -21,11 +21,10 @@ def create_app(testing=False):
     if settings.HYDRA_ADMIN_URL:
         app.wsgi_app = IntrospectionMiddleware(
             app.wsgi_app,
-            settings.KRATOS_UI_URL,
             settings.HYDRA_SCOPE,
             settings.HYDRA_ADMIN_URL,
-            settings.HYDRA_DISCOVERY_URL,
-            settings.HYDRA_CLIENT_ID,
+            settings.OAUTH2_LOGIN_URL,
+            "http://127.0.0.1:5000/complete",
         )
 
     configure_extensions(app)
@@ -61,6 +60,7 @@ def configure_apispec(app):
 
 
 def register_blueprints(app):
+    app.register_blueprint(public.views.blueprint)
     app.register_blueprint(api.views.blueprint)
 
 

@@ -4,7 +4,7 @@
     url: 'http://auth:5000'
     strip_path: /auth
   match:
-    url: 'http://127.0.0.1:8080/<(auth|app|apps).*>'
+    url: 'http://127.0.0.1:8080/<(auth|app|apps|login|consent).*>'
     methods:
       - GET
       - POST

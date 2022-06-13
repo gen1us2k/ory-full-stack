@@ -32,6 +32,10 @@ HYDRA_CLIENT_ID = env.str("HYDRA_CLIENT_ID", default='i4GGX1fWnEYvCu2Vo2iHdubzFY
 # HYDRA_CLIENT_SECRET is client secred of created oauth2 client at auth service
 HYDRA_CLIENT_SECRET = env.str("HYDRA_CLIENT_SECRET", default='D.rDsGphHoaP157ecROt92~QI5')
 
+OAUTH2_LOGIN_URL = env.str("OAUTH2_LOGIN_URL", default='http://127.0.0.1:5000/login')
+
+HYDRA_CALLBACK_URL = env.str("HYDRA_CALLBACK_URL", default='http://127.0.0.1:5000/complete')
+
 # HYDRA_DISCOVERY_URL is an URL to openid-configuration
 HYDRA_DISCOVERY_URL = env.str("HYDRA_DISCOVERY_URL", default='http://127.0.0.1:4444/.well-known/openid-configuration')
 
