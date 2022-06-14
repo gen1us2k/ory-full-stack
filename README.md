@@ -60,23 +60,38 @@ Auth service implements Oauth2 flows and makes requests to Hydra. Also, you can 
 4. auth/consent page shows you consent screen with accept and reject request buttons. On the button click it sends request either accept request or reject request against Ory Hydra and redirects request to api/complete endpoint
 5. api/complete takes `code` passed by consent screen, makes request to token endpoint, validates the `code` and passes json array as response with `id_token`, `access_token`, `refresh_token`
 
-### Auth service
-Auth service is responsible for authentication and authorization
-
-1. Request lands the endpoint
-2. Middleware checks if the user is authenticated against Ory Kratos
-3. One can create oauth2 apps using simple frontend
-4. Handles oauth2 flows and validates everything against Hydra
-
-### API service
-API service implements a simple CRUD-like REST API
-
-1. Requires Tokens issued by Hydra passed within `Autorization` header
-2. Middleware checks tokens against Ory Hydra
-
 
 ### Ory products
 
 1. Ory Kratos is used as identity provider and implements login/registration flows for the project
 2. Ory Keto implements a simple RBAC 
 3. Ory oathkeeper and flask middlewares checks authentication/authorization for the service (You can use it either with middlewares or without by using oathkeeper)
+
+
+
+## Running locally
+Prerequisites
+
+1. Docker
+2. docker-compose
+3. make
+
+```
+  git clone git@github.com:gen1us2k/ory-full-stack
+  cd ory-full-stack
+  make all
+```
+
+1. Open http://127.0.0.1:8080/apps
+2. Create an account and login
+3. Create an app (callback url value is http://127.0.0.1:8080/auth/complete)
+4. Change values of `HYDRA_CLIENT_ID` and `HYDRA_CLIENT_SECRET` with values of newly created Oauth2 app
+5. Open http://127.0.0.1:8080/auth/login to initialize oauth2 flow
+6. Copy `access_token`, `refresh_token` after accepted consent
+
+
+To test that everything works fine just run
+
+```
+  curl -H 'Authorization: Bearer token' http://127.0.0.1:8080/api/v1/subreddits
+```
