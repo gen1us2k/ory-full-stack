@@ -33,7 +33,32 @@ with_kratos                    Runs flask apps with Kratos
 
 ## Arhitecture
 
-The example uses two flask applications: API and auth
+The example uses two flask applications: API and auth. API is secured by Oauth2 and requires `access_token`
+
+### API Service
+Exposes two public endpoints
+
+1. /login to initialize Oauth2 login flow
+2. /complete to complete Oauth2 login flow
+3. /api group of CRUD like endpoints for Subreddit, Thread, comments models
+
+### Auth Service
+
+Auth service implements Oauth2 flows and makes requests to Hydra. Also, you can create Oauth2 apps to configure `API` service. Exposes the following endpoints
+
+1. / - main page with `Create app` button
+2. /app/create - create app webpage
+3. /apps - list of created apps with needed information
+4. /login - handles login request against Ory Hydra
+5. /consent - handles consent request against Ory Hydra 
+
+### Request flow
+
+1. api/login generates oauth2 login url and redirects to Ory Hydra oauth2/auth endpoint
+2. hydra/oauth2/auth endpoint initializes login flow and redirects to auth/login endpoint with generated `login_challenge`
+3. auth/login accepts login request automatically agaist Ory Hydra and redirects to auth/consent page 
+4. auth/consent page shows you consent screen with accept and reject request buttons. On the button click it sends request either accept request or reject request against Ory Hydra and redirects request to api/complete endpoint
+5. api/complete takes `code` passed by consent screen, makes request to token endpoint, validates the `code` and passes json array as response with `id_token`, `access_token`, `refresh_token`
 
 ### Auth service
 Auth service is responsible for authentication and authorization
