@@ -6,7 +6,7 @@ from app.security import oauth2client
 from config import settings
 
 
-blueprint = Blueprint('public', __name__, url_prefix='/')
+blueprint = Blueprint('public', __name__, url_prefix='/auth')
 STRING_LENGTH = 32
 
 @blueprint.route("/login")

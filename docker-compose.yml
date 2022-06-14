@@ -21,6 +21,14 @@ services:
       context: api
     environment:
       - FLASK_APP=autoapp
+      - HYDRA_CLIENT_ID=ppFi4hP8SSJSw1zdlMg5Tz0vBbw9r14n
+      - HYDRA_CLIENT_SECRET=7-1ZAamvCmpi~KZ1VGXkX4fw-o
+      - OAUTH2_LOGIN_URL=http://127.0.0.1:8080/auth/login
+      - HYDRA_CALLBACK_URL=http://127.0.0.1:8080/auth/complete
+      - OAUTHLIB_INSECURE_TRANSPORT=1
+      - HYDRA_PUBLIC_API=http://hydra:4444
+      - HYDRA_ADMIN_API=http://hydra:4445
+      - HYDRA_DISCOVERY_URL=http://host.docker.internal:4444/.well-known/openid-configuration
     networks:
       - intranet
 

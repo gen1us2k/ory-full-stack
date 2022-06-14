@@ -24,7 +24,7 @@ def create_app(testing=False):
             settings.HYDRA_SCOPE,
             settings.HYDRA_ADMIN_URL,
             settings.OAUTH2_LOGIN_URL,
-            "http://127.0.0.1:5000/complete",
+            settings.HYDRA_CALLBACK_URL,
         )
 
     configure_extensions(app)
