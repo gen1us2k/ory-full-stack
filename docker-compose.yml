@@ -32,9 +32,9 @@ services:
     networks:
       - intranet
 
-  auth:
+  consent:
     build:
-      context: auth
+      context: consent
     environment:
       - FLASK_APP=autoapp
       - KRATOS_API_URL=http://kratos:4433

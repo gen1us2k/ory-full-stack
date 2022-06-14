@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "auth"
+name = "consent"
 version = "0.1.0"
 description = ""
 authors = ["Andrew Minkin <minkin.andrew@gmail.com>"]
