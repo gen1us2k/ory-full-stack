@@ -36,3 +36,6 @@ HYDRA_PUBLIC_URL = env.str("HYDRA_PUBLIC_URL", default='http://127.0.0.1:4444')
 
 # SECRET_KEY is generated 32bit key
 SECRET_KEY = env.str("SECRET_KEY", default='not_secure_at_all')
+
+# HYDRA_SCOPE is variable to configure Oauth2 scopes
+HYDRA_SCOPE = env.str("HYDRA_SCOPE", default="openid offline")

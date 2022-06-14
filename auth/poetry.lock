@@ -211,7 +211,7 @@ Flask-SQLAlchemy = ">=1.0"
 
 [[package]]
 name = "flask-ory-auth"
-version = "0.1.2"
+version = "0.1.3"
 description = "Useful middlewares and clients to use Ory products in flask App"
 category = "main"
 optional = false
@@ -699,7 +699,7 @@ email = ["email-validator"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "624801beb1f17a06f0f7f6f3c5a66718844565e2e79c0152ad428e1c2b3f6ea9"
+content-hash = "5b6f420162765282a14187817a71fd7b439c306c0a17672e88cfb31ecf9ac3e6"
 
 [metadata.files]
 alembic = [
@@ -767,8 +767,8 @@ flask-migrate = [
     {file = "Flask_Migrate-3.1.0-py3-none-any.whl", hash = "sha256:a6498706241aba6be7a251078de9cf166d74307bca41a4ca3e403c9d39e2f897"},
 ]
 flask-ory-auth = [
-    {file = "flask-ory-auth-0.1.2.tar.gz", hash = "sha256:531a44517d427e68ef58f7d7feec1c816c78a7c77bb01cbc546fb7b1b725b965"},
-    {file = "flask_ory_auth-0.1.2-py3-none-any.whl", hash = "sha256:a899c955dfb4de4dc251342c5af13f6181400de1c471858cbc1982e1a21e809a"},
+    {file = "flask-ory-auth-0.1.3.tar.gz", hash = "sha256:cbbce1e03a7e217a3bf4a1b885f78d015b8c9f75de5c06a22c4c15c71de8bcaa"},
+    {file = "flask_ory_auth-0.1.3-py3-none-any.whl", hash = "sha256:ea3fa00b19d1b9e1437358d0c2c210b8d7f6ddd97b5b5e2aec2538367cdb8e54"},
 ]
 flask-restful = [
     {file = "Flask-RESTful-0.3.9.tar.gz", hash = "sha256:ccec650b835d48192138c85329ae03735e6ced58e9b2d9c2146d6c84c06fa53e"},

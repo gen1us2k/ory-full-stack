@@ -9,9 +9,7 @@
   <p> Hello. Application {{ app.name }} wants access resources on your behalf and to:
 
   {% for scope in scopes %}
-  <div class="input-group mb-3">
-    <input type="checkbox" id="{{ scope }}" value="{{ scope }}" class="form-control" />
-  </div>
+  <p> {{ scope }} </p>
   {% endfor %}
   <input type="hidden" value={{ challenge }} name="consent_challenge"/>
 

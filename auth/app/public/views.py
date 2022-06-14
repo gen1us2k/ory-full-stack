@@ -26,7 +26,8 @@ def index():
 
 
 @bp.route('/app/create', methods=['GET', 'POST'])
-def create_app():
+def create_oauth2_app():
+    """ View to create Oauth2 App. """
     form = Oauth2CreateForm(request.form)
     if request.method == 'POST' and form.validate():
         client_id = generate_client_id()
@@ -38,11 +39,12 @@ def create_app():
                 "grant_types": ["authorization_code", "refresh_token"],
                 "redirect_uris": [form.callback_url.data],
                 "response_types": ["code", "id_token"],
-                "scope": "openid offline",
+                "scope": settings.HYDRA_SCOPE,
             },
         )
 
         if resp.status_code != 201:
+            # FIXME: Pass errors to the frontend
             return render_template('oauth/create_client.html', form=form)
 
         data = resp.json()
@@ -63,17 +65,20 @@ def create_app():
 
 @bp.route('/app/<id>', methods=['GET'])
 def app_detail():
+    """ App details view. """
     return render_template('oauth/list_client.html')
 
 
 @bp.route('/apps', methods=['GET'])
 def apps_list():
+    """ App list view. """
     apps = App.query.filter(App.owner_id == session.get('user_id'))
     return render_template('oauth/list_client.html', apps=apps)
 
 
 @bp.route('/login', methods=['GET'])
 def login():
+    """ Oauth2 login handler view."""
     form = LoginForm(request.args)
     if form.validate():
         data = oauth2.get_login_request(form.login_challenge.data)
@@ -88,6 +93,7 @@ def login():
 
 @bp.route('/consent', methods=['GET', 'POST'])
 def consent():
+    """ Oauth2 consent view. """
     form = ConsentForm(request.form)
     if request.method == 'POST' and form.validate():
         data = oauth2.get_consent_request(form.consent_challenge.data)
@@ -95,7 +101,7 @@ def consent():
         if form.submit.data == 'accept':
             accept = oauth2.accept_consent_request(
                 form.consent_challenge.data,
-                data.get('requested_scopes'),
+                data.get('requested_scope'),
                 session.get('email'),
             )
             return redirect(accept.get('redirect_to'), code=302)
@@ -112,8 +118,9 @@ def consent():
 
     data = oauth2.get_consent_request(challenge)
     app = App.query.filter(App.client_id == data.get('client').get('client_id')).first()
+    scopes = eval(data.get('requested_scope').to_str())
 
-    return render_template('oauth/consent.html', app=app, scopes=data.get('requested_scopes', []), challenge=challenge)
+    return render_template('oauth/consent.html', app=app, scopes=scopes, challenge=challenge)
 
 
 def generate_client_id():
