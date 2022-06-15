@@ -1,7 +1,7 @@
 - id: 'auth:protected'
   upstream:
     preserve_host: true
-    url: 'http://auth:5000'
+    url: 'http://consent:5000'
   match:
     url: 'http://127.0.0.1:8080/<(app|apps|login|consent).*>'
     methods:

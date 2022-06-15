@@ -1,4 +1,5 @@
 import random
+import json
 import string
 
 import requests
@@ -82,10 +83,10 @@ def login():
     form = LoginForm(request.args)
     if form.validate():
         data = oauth2.get_login_request(form.login_challenge.data)
-        traits = session.get('traits')
-        if not traits:
-            traits = session.get('email')
-        data = oauth2.accept_login_request(form.login_challenge.data, traits)
+        traits = json.loads(session.get('traits'))
+        traits["user_id"] = session.get("kratos_id")
+
+        data = oauth2.accept_login_request(form.login_challenge.data, json.dumps(traits))
         return redirect(data.get('redirect_to'), code=302)
 
     return redirect(f"{settings.KRATOS_UI_URL}/login", code=302)

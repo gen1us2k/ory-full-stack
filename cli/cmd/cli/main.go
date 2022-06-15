@@ -23,7 +23,7 @@ func main() {
 	client := api.NewClient(c.APIURL, token.AccessToken)
 
 	if err := client.CreateSubreddit(api.Subreddit{
-		Name:        "Programming",
+		Name:        "Software Engineering",
 		Description: "Something meaningful",
 		Status:      1,
 	}); err != nil {

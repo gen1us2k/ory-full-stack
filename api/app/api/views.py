@@ -1,3 +1,5 @@
+import requests
+import json
 from app.api.resource import CommentList
 from app.api.resource import CommentResource
 from app.api.resource import SubRedditList
@@ -9,10 +11,11 @@ from app.api.schema import SubRedditSchema
 from app.api.schema import ThreadSchema
 from app.extensions import apispec
 from flask import Blueprint
-from flask import current_app
-from flask import jsonify
+from flask import current_app, session
+from flask import jsonify, request, redirect
 from flask_restful import Api
 from marshmallow import ValidationError
+from config import settings
 
 
 blueprint = Blueprint("api", __name__, url_prefix="/api/v1")
@@ -51,3 +54,42 @@ def handle_marshmallow_error(e):
     correct JSON response with associated HTTP 400 Status (https://tools.ietf.org/html/rfc7231#section-6.5.1)
     """
     return jsonify(e.messages), 400
+
+@blueprint.before_request
+def introspect():
+    token = get_access_token(request)
+    if not token:
+        return redirect(settings.OAUTH2_LOGIN_URL, code=302)
+
+    resp = requests.post(
+        f"{settings.HYDRA_ADMIN_URL}/oauth2/introspect",
+        data={
+            "scope": settings.HYDRA_SCOPE,
+            "token": token,
+        },
+    )
+    traits = json.loads(resp.json().get('sub'))
+
+    if resp.status_code != 200:
+        return redirect(settings.OAUTH2_LOGIN_URL, code=302)
+
+    session['email'] = traits.get('email')
+    session['user_id'] = traits.get('user_id')
+
+
+
+def get_access_token(request):
+    header = request.headers.get("Authorization")
+    if not header:
+        access_token = request.args.get("access_token", "")
+        if access_token:
+            return access_token
+
+        access_token = request.form.get("access_token", "")
+        if access_token:
+            return access_token
+
+        return None
+
+    parts = header.split()
+    return parts[1]
