@@ -10,7 +10,9 @@ import (
 	"math/rand"
 	"net/http"
 	"net/url"
+	"time"
 
+	"github.com/fatih/color"
 	"github.com/skratchdot/open-golang/open"
 	"golang.org/x/oauth2"
 )
@@ -21,6 +23,7 @@ type (
 		config       *config.CLIConfig
 		token        *oauth2.Token
 		srv          *http.Server
+		shut         chan struct{}
 	}
 	Discovery struct {
 		AuthURL  string `json:"authorization_endpoint"`
@@ -53,6 +56,7 @@ func NewOauth2(config *config.CLIConfig) (*Oauth2, error) {
 			RedirectURL: "http://127.0.0.1:9999/oauth/callback",
 		},
 		config: config,
+		shut:   make(chan struct{}),
 	}
 	o.initHTTPServer()
 	return o, nil
@@ -84,6 +88,15 @@ func (o *Oauth2) generateState() string {
 }
 
 func (o *Oauth2) startHTTPServer() {
+	go func() {
+		<-o.shut
+		d := time.Now().Add(5 * time.Second)
+		ctx, cancel := context.WithDeadline(context.Background(), d)
+		defer cancel()
+		if err := o.srv.Shutdown(ctx); err != nil {
+			log.Printf(color.RedString("Auth server could not shutdown gracefully: %v"), err)
+		}
+	}()
 	if err := o.srv.ListenAndServe(); err != http.ErrServerClosed {
 		log.Fatalf("ListenAndServe(): %v", err)
 	}
@@ -115,8 +128,12 @@ func (o *Oauth2) callbackHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	o.token = token
-	msg := "<p><strong>Success!</strong></p>"
-	msg = msg + "<p>You are authenticated and can now return to the CLI.</p>"
-	fmt.Fprintf(w, msg)
-	o.srv.Shutdown(context.Background())
+	successPage := `
+		<div style="height:100px; width:100%!; display:flex; flex-direction: column; justify-content: center; align-items:center; background-color:#2ecc71; color:white; font-size:22"><div>Success!</div></div>
+		<p style="margin-top:20px; font-size:18; text-align:center">You are authenticated, you can now return to the program. Please, close the window</p>
+		`
+
+	w.WriteHeader(http.StatusOK)
+	fmt.Fprintf(w, successPage)
+	o.shut <- struct{}{}
 }
