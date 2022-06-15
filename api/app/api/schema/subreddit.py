@@ -6,4 +6,5 @@ from app.models import SubReddit
 class SubRedditSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = SubReddit
+        load_instance = True
         sqla_session = db.session

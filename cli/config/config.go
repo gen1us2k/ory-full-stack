@@ -7,7 +7,7 @@ type CLIConfig struct {
 	DiscoveryURL string `envconfig:"DISCOVERY_URL" default:"http://127.0.0.1:4444/.well-known/openid-configuration"`
 	ClientID     string `envconfig:"CLIENT_ID" default:"uJOuTEhECdJyjOUdPGCeekMgYLT90r5C"`
 	ClientSecret string `envconfig:"CLIENT_SECRET" default:"6aFJ9sxajhNneXfa-U4hwEmzxE"`
-	APIURL       string `envconfig:"API_URL"`
+	APIURL       string `envconfig:"API_URL" default:"http://127.0.0.1:5001/api/v1"`
 	SkipTLS      bool   `envconfig:"SKIP_TLS" default:"true"`
 }
 

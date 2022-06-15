@@ -3,6 +3,7 @@ module cli
 go 1.18
 
 require (
+	github.com/davecgh/go-spew v1.1.0
 	github.com/fatih/color v1.13.0
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/skratchdot/open-golang v0.0.0-20200116055534-eef842397966
