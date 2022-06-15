@@ -60,7 +60,7 @@ def handle_marshmallow_error(e):
     return jsonify(e.messages), 400
 
 
-@blueprint.before_request
+#@blueprint.before_request
 def introspect():
     token = get_access_token(request)
     if not token:

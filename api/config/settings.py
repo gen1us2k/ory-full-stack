@@ -46,3 +46,6 @@ HYDRA_SCOPE = env.str("HYDRA_SCOPE", default="openid offline")
 # Specify https://<project-slug>.projects.oryapis.com/ui
 # to use it against Ory Cloud
 KRATOS_UI_URL = env.str("KRATOS_UI_URL", default='http://127.0.0.1:4455')
+
+KETO_WRITE_URL = env.str("KETO_WRITE_URL", default="http://127.0.0.1:4466")
+KETO_READ_URL = env.str("KETO_READ_URL", default="http://127.0.0.1:4466")
