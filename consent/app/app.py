@@ -1,11 +1,11 @@
 from app import public
-from flask_ory_auth.kratos.middleware import AuthenticationMiddleware
 from app.extensions import db
 from app.extensions import migrate
 from app.security import authentication
 from config import settings
 from flask import Flask
 from flask import session
+from flask_ory_auth.kratos.middleware import AuthenticationMiddleware
 
 
 def create_app(testing=False):

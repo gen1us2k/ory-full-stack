@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 from app.api.resource import CommentList
 from app.api.resource import CommentResource
 from app.api.resource import SubRedditList
@@ -10,12 +11,15 @@ from app.api.schema import CommentSchema
 from app.api.schema import SubRedditSchema
 from app.api.schema import ThreadSchema
 from app.extensions import apispec
+from config import settings
 from flask import Blueprint
-from flask import current_app, session
-from flask import jsonify, request, redirect
+from flask import current_app
+from flask import jsonify
+from flask import redirect
+from flask import request
+from flask import session
 from flask_restful import Api
 from marshmallow import ValidationError
-from config import settings
 
 
 blueprint = Blueprint("api", __name__, url_prefix="/api/v1")
@@ -55,6 +59,7 @@ def handle_marshmallow_error(e):
     """
     return jsonify(e.messages), 400
 
+
 @blueprint.before_request
 def introspect():
     token = get_access_token(request)
@@ -75,7 +80,6 @@ def introspect():
 
     session['email'] = traits.get('email')
     session['user_id'] = traits.get('user_id')
-
 
 
 def get_access_token(request):

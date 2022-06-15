@@ -1,11 +1,11 @@
 import random
 import string
 
-from app import api, public
+from app import api
+from app import public
 from app.extensions import apispec
 from app.extensions import db
 from app.extensions import migrate
-from config import settings
 from flask import Flask
 from flask import session
 

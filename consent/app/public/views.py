@@ -1,5 +1,5 @@
-import random
 import json
+import random
 import string
 
 import requests
@@ -28,7 +28,7 @@ def index():
 
 @bp.route('/app/create', methods=['GET', 'POST'])
 def create_oauth2_app():
-    """ View to create Oauth2 App. """
+    """View to create Oauth2 App."""
     form = Oauth2CreateForm(request.form)
     if request.method == 'POST' and form.validate():
         client_id = generate_client_id()
@@ -66,20 +66,20 @@ def create_oauth2_app():
 
 @bp.route('/app/<id>', methods=['GET'])
 def app_detail():
-    """ App details view. """
+    """App details view."""
     return render_template('oauth/list_client.html')
 
 
 @bp.route('/apps', methods=['GET'])
 def apps_list():
-    """ App list view. """
+    """App list view."""
     apps = App.query.filter(App.owner_id == session.get('user_id'))
     return render_template('oauth/list_client.html', apps=apps)
 
 
 @bp.route('/login', methods=['GET'])
 def login():
-    """ Oauth2 login handler view."""
+    """Oauth2 login handler view."""
     form = LoginForm(request.args)
     if form.validate():
         data = oauth2.get_login_request(form.login_challenge.data)
@@ -94,7 +94,7 @@ def login():
 
 @bp.route('/consent', methods=['GET', 'POST'])
 def consent():
-    """ Oauth2 consent view. """
+    """Oauth2 consent view."""
     form = ConsentForm(request.form)
     if request.method == 'POST' and form.validate():
         data = oauth2.get_consent_request(form.consent_challenge.data)

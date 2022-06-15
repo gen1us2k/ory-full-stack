@@ -1,5 +1,6 @@
 import pytest
 
+
 @pytest.fixture(scope="session")
 def app():
     """Create application for the tests."""
@@ -53,4 +54,3 @@ def session(db, flask_session):
 
     yield session
     teardown()
-

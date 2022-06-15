@@ -1,7 +1,7 @@
-from flask_ory_auth.keto.client import AccessControl
 from config import settings
 from flask import request
 from flask import url_for
+from flask_ory_auth.keto.client import AccessControl
 
 
 DEFAULT_PAGE_SIZE = 50

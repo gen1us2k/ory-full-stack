@@ -45,8 +45,8 @@ class SubRedditList(Resource):
         return paginate(query, schema)
 
     def post(self):
-        #user_id = session.get("email")
-        #if not self.is_allowed("groups", "admin", "member", user_id):
+        # user_id = session.get("email")
+        # if not self.is_allowed("groups", "admin", "member", user_id):
         #    return abort(403)
 
         schema = SubRedditSchema()
