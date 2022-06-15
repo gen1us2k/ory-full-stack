@@ -2,7 +2,6 @@ import random
 import string
 
 from app import api, public
-from flask_ory_auth.hydra.middleware import IntrospectionMiddleware
 from app.extensions import apispec
 from app.extensions import db
 from app.extensions import migrate
@@ -17,15 +16,6 @@ def create_app(testing=False):
     app.config.from_object("config.settings")
     if testing:
         app.config["TESTING"] = True
-
-    #if settings.HYDRA_ADMIN_URL:
-    #    app.wsgi_app = IntrospectionMiddleware(
-    #        app.wsgi_app,
-    #        settings.HYDRA_SCOPE,
-    #        settings.HYDRA_ADMIN_URL,
-    #        settings.OAUTH2_LOGIN_URL,
-    #        settings.HYDRA_CALLBACK_URL,
-    #    )
 
     configure_extensions(app)
     configure_apispec(app)
