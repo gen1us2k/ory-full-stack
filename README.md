@@ -124,7 +124,7 @@ You can check environment variables in `/api/config/settings.py` file
 ## Ory 
 ### Keto
 
-Policies and groups
+Policies and groups. For the advanced RBAC configuration you can check [this guide](https://www.ory.sh/docs/keto/guides/rbac)
 
 ```
 app:subreddit#edit@(groups:admin#member)
@@ -133,4 +133,16 @@ app:subreddit#delete@(groups:admin#member)
 app:subreddit#edit@(groups:moderator#member)
 app:subreddit#create@(groups:moderator#member)
 ```
+
+### Oathkeeper
+
+Oathkeeper proxies only authenticated requests to `api` and `consent` services. It uses `cookie_session` authenticator to check authentication. Check `oathkeeper/access-rules.yml` for additional information
+
+## Contribute
+
+Feel free to [open a discussion](https://github.com/ory/examples/discussions/new) to provide feedback or talk about ideas, or
+[open an issue](https://github.com/ory/examples/issues/new) if you want to add your example to the repository or encounter a bug.
+You can contribute to Ory in many ways, see the [Ory Contributing Guidelines](https://www.ory.sh/docs/ecosystem/contributing) for
+more information.
+
 
