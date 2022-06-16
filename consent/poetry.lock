@@ -84,7 +84,7 @@ tests_no_zope = ["coverage[toml] (>=5.0.2)", "hypothesis", "pympler", "pytest (>
 
 [[package]]
 name = "certifi"
-version = "2022.5.18.1"
+version = "2022.6.15"
 description = "Python package for providing Mozilla's CA Bundle."
 category = "main"
 optional = false
@@ -211,7 +211,7 @@ Flask-SQLAlchemy = ">=1.0"
 
 [[package]]
 name = "flask-ory-auth"
-version = "0.1.4"
+version = "0.1.6"
 description = "Useful middlewares and clients to use Ory products in flask App"
 category = "main"
 optional = false
@@ -699,7 +699,7 @@ email = ["email-validator"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "db451ba68d39e782649d51a7cbafd97c437579beee3ff1a61573d261978f2137"
+content-hash = "76e9344ebd1b54471e7cfa666c412f3b7c7f598928bb2269f3e79cf962297bea"
 
 [metadata.files]
 alembic = [
@@ -727,8 +727,8 @@ attrs = [
     {file = "attrs-21.4.0.tar.gz", hash = "sha256:626ba8234211db98e869df76230a137c4c40a12d72445c45d5f5b716f076e2fd"},
 ]
 certifi = [
-    {file = "certifi-2022.5.18.1-py3-none-any.whl", hash = "sha256:f1d53542ee8cbedbe2118b5686372fb33c297fcd6379b050cca0ef13a597382a"},
-    {file = "certifi-2022.5.18.1.tar.gz", hash = "sha256:9c5705e395cd70084351dd8ad5c41e65655e08ce46f2ec9cf6c2c08390f71eb7"},
+    {file = "certifi-2022.6.15-py3-none-any.whl", hash = "sha256:fe86415d55e84719d75f8b69414f6438ac3547d2078ab91b67e779ef69378412"},
+    {file = "certifi-2022.6.15.tar.gz", hash = "sha256:84c85a9078b11105f04f3036a9482ae10e4621616db313fe045dd24743a0820d"},
 ]
 charset-normalizer = [
     {file = "charset-normalizer-2.0.12.tar.gz", hash = "sha256:2857e29ff0d34db842cd7ca3230549d1a697f96ee6d3fb071cfa6c7393832597"},
@@ -767,8 +767,8 @@ flask-migrate = [
     {file = "Flask_Migrate-3.1.0-py3-none-any.whl", hash = "sha256:a6498706241aba6be7a251078de9cf166d74307bca41a4ca3e403c9d39e2f897"},
 ]
 flask-ory-auth = [
-    {file = "flask-ory-auth-0.1.4.tar.gz", hash = "sha256:5c99131be23339904c1905c6e87248885b60581371edff76414701e1d21df69d"},
-    {file = "flask_ory_auth-0.1.4-py3-none-any.whl", hash = "sha256:817c75e0cc4e33f0f91e202eec540ba87d3d7e9e01a95996598a68f9da7a2f31"},
+    {file = "flask-ory-auth-0.1.6.tar.gz", hash = "sha256:792649e9d75aa328f2ab53f0f8dd16e355724b51b5aa07b4ef2f251126ae4057"},
+    {file = "flask_ory_auth-0.1.6-py3-none-any.whl", hash = "sha256:a4205681e5300d96347fd215cbc01b5dc643c34f73bfcb0922f0b7c406fb7a6d"},
 ]
 flask-restful = [
     {file = "Flask-RESTful-0.3.9.tar.gz", hash = "sha256:ccec650b835d48192138c85329ae03735e6ced58e9b2d9c2146d6c84c06fa53e"},
