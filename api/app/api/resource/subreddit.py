@@ -17,7 +17,7 @@ class SubRedditResource(Resource, AccessControlMixin):
 
     def put(self, subreddit_id):
         user_id = session.get("user_id")
-        if not self.is_allowed("groups", "admin", "member", user_id):
+        if not self.is_allowed("app", "subreddit", "edit", user_id):
             return abort(403)
 
         schema = SubRedditSchema()
@@ -30,7 +30,7 @@ class SubRedditResource(Resource, AccessControlMixin):
 
     def delete(self, subreddit_id):
         user_id = session.get("email")
-        if not self.is_allowed("groups", "admin", "member", user_id):
+        if not self.is_allowed("app", "subreddit", "delete", user_id):
             return abort(403)
 
         subreddit = SubReddit.get_by_id(subreddit_id)
@@ -46,7 +46,7 @@ class SubRedditList(Resource, AccessControlMixin):
 
     def post(self):
         user_id = session.get("email")
-        if not self.is_allowed("groups", "admin", "member", user_id):
+        if not self.is_allowed("app", "subreddit", "create", user_id):
             return abort(403)
 
         schema = SubRedditSchema()

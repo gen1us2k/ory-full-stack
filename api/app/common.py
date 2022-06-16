@@ -40,10 +40,9 @@ def paginate(query, schema):
         "results": schema.dump(page_obj.items),
     }
 
-
 class AccessControlMixin:
     def __init__(self):
         self.keto_client = AccessControl(settings.KETO_WRITE_URL, settings.KETO_READ_URL)
 
     def is_allowed(self, namespace, obj, relation, subject_id):
-        return self.keto_client.is_allowed(namespace, obj, relation, subject_id)
+        return self.keto_client.is_allowed(namespace, obj, relation, subject_id.replace("@", ""))

@@ -4,8 +4,10 @@ log:
   level: debug
 
 namespaces:
-  - name: app
+  - name: groups
     id: 1
+  - name: app
+    id: 2
 
 serve:
   read:
