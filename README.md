@@ -93,14 +93,44 @@ with_kratos                    Runs flask apps with Kratos
 
 1. Open http://127.0.0.1:8080/apps
 2. Create an account and login
-3. Create an app (callback url value is http://127.0.0.1:8080/auth/complete)
-4. Change values of `HYDRA_CLIENT_ID` and `HYDRA_CLIENT_SECRET` with values of newly created Oauth2 app
-5. Open http://127.0.0.1:8080/auth/login to initialize oauth2 flow
-6. Copy `access_token`, `refresh_token` after accepted consent
+3. Create an app (callback url value is http://127.0.0.1:9999/oauth/callback)
+4. Run `python keto/create_policies.py` to create policies in Keto
+5. Run `python keto/add_admin.py youremail` to grant admin permissions for yourself
+6. Run `cd cli`
+7. Use `CLIENT_ID` and `CLIENT_SECRET` environment variables to configure the CLI app
+8. Run `go run cmd/cli/main.go`
 
 
-To test that everything works fine just run
+## Configuration
+### CLI
+Environment variables
 
 ```
-  curl -H 'Authorization: Bearer token' http://127.0.0.1:8080/api/v1/subreddits
+DISCOVERY_URL - an URL to openid-configuration. By Default http://127.0.0.1:4444/.well-known/openid-configuration
+CLIENT_ID - Oauth2 client id
+CLIENT_SECRET - Oauth2 client secret
+API_URL - an URL to API service. By default http://127.0.0.1:5000
+SKIP_TLS - Configuration for HTTP transport to skip TLS verification. By default is true
 ```
+
+### API
+
+You can check environment variables in `/api/config/settings.py` file
+
+### Consent
+
+You can check environment variables in `/api/config/settings.py` file
+
+## Ory 
+### Keto
+
+Policies and groups
+
+```
+app:subreddit#edit@(groups:admin#member)
+app:subreddit#create@(groups:admin#member)
+app:subreddit#delete@(groups:admin#member)
+app:subreddit#edit@(groups:moderator#member)
+app:subreddit#create@(groups:moderator#member)
+```
+
